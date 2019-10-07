@@ -165,6 +165,13 @@ const App = () => {
                     size = 'btn_lg'
                 />
             </div>
+            <h5>Buttons custom class</h5>
+            <Button
+                accent = 'btn_default'
+                className = 'btn_border'
+                size = 'btn_md'
+                text = 'Button'
+            />
         </div>
     );
 };
