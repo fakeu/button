@@ -1,0 +1,186 @@
+@function get-in($name, $key, $value: bg) {
+    @return map-get(map-get($name, $key), $value);
+}
+
+$primaryAccent: #338bff;
+$secondaryAccent: #e5f1ff;
+$dangerAccent: #f6563d;
+$disabledAccent: #ebebeb;
+$lightColor: #fff;
+$darkColor: #545457;
+$secondaryColor: #55a1ff;
+$disabledColor: #9d9ea0;
+$sizemap: (
+  sm:
+    (
+      'font-size': 14px,
+      'font-weight': 400,
+      'line-height': 14px,
+      'padding': 4px 11px,
+      'border-radius': 12px,
+      'min-width': 24px,
+      'icon': 14px,
+    ),
+  md:
+    (
+      'font-size': 16px,
+      'font-weight': 400,
+      'line-height': 16px,
+      'padding': 6px 14px,
+      'border-radius': 15px,
+      'min-width': 30px,
+      'icon': 16px,
+    ),
+  lg:
+    (
+      'font-size': 20px,
+      'font-weight': 400,
+      'line-height': 20px,
+      'padding': 8px 18px,
+      'border-radius': 19px,
+      'min-width': 38px,
+      'icon': 20px,
+
+    )
+);
+$accentmap: (
+  default:
+    (
+      'bgc': $primaryAccent,
+      'color': $lightColor,
+      'h:bgc': $lightColor,
+      'h:color': $darkColor
+    ),
+  secondary:
+    (
+      'bgc': $secondaryAccent,
+      'color': $secondaryColor,
+      'h:bgc': $lightColor,
+      'h:color': $darkColor
+    ),
+  error:
+    (
+      'bgc': $dangerAccent,
+      'color': $lightColor,
+      'h:bgc': $lightColor,
+      'h:color': $darkColor
+    )
+);
+
+.btn {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+
+    position: relative;
+
+    display: inline-flex;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+    transition: color .35s ease-in-out, background-color .35s ease-in-out;
+
+    color: $darkColor;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background-color: transparent;
+
+    align-items: center;
+
+    &_text {
+        white-space: nowrap;
+
+        order: 1;
+        & + .btn_icon {
+            margin-right: 10px;
+        }
+    }
+
+    &_icon {
+        max-width: 16px;
+        max-height: 16px;
+
+        order: 0;
+        &--right {
+            margin-right: 0 !important;
+            margin-left: 10px;
+
+            order: 2;
+        }
+    }
+
+    &_spinner {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+
+        max-width: 100%;
+        max-height: 100%;
+
+        transform: translate(-50%, -50%);
+    }
+
+    &:focus {
+        outline: none !important;
+    }
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    @each $key, $value in $sizemap {
+        &_#{$key} {
+            font-size: get-in($sizemap, $key, 'font-size');
+            font-weight: get-in($sizemap, $key, 'font-weight');
+            line-height: get-in($sizemap, $key, 'line-height');
+
+            min-width: get-in($sizemap, $key, 'min-width');
+            padding: get-in($sizemap, $key, 'padding');
+
+            border-radius: get-in($sizemap, $key, 'border-radius');
+
+            justify-content: center;
+            & .btn_icon {
+                max-width: get-in($sizemap, $key, 'icon');
+                max-height: get-in($sizemap, $key, 'icon');
+            }
+        }
+    }
+
+    @each $key, $value in $accentmap {
+        &_#{$key} {
+            text-decoration: none;
+
+            color: get-in($accentmap, $key, 'color');
+            background-color: get-in($accentmap, $key, 'bgc');
+            &:focus {
+                text-decoration: none;
+
+                color: get-in($accentmap, $key, 'color');
+                background-color: get-in($accentmap, $key, 'bgc');
+            }
+            &:hover {
+                text-decoration: none;
+
+                color: get-in($accentmap, $key, 'h:color');
+                background-color: get-in($accentmap, $key, 'h:bgc');
+            }
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+
+        color: $darkColor;
+        background-color: $disabledAccent;
+        &:focus,
+        &:hover {
+            color: $darkColor;
+            background-color: $disabledAccent;
+        }
+    }
+}
